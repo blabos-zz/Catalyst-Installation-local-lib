@@ -3,18 +3,6 @@ package Catalyst::Installation::local::lib;
 use warnings;
 use strict;
 
-=head1 NOME
-
-Catalyst::Installation::local::lib - Instalação do Catalyst usando local::lib
-
-=head1 VERSÃO
-
-Versão 0.01
-
-=cut
-
-our $VERSION = '0.01';
-
 
 =head1 INTRODUÇÃO
 
@@ -27,6 +15,8 @@ Entretanto, quando falamos de Perl isso não é um problema, pois utilizando o m
 O principal requisito é ter disponível um compilador C e os pacotes de desenvolvimento da libc (quando aplicável). Alguns módulos compilam partes escritas em C.
 
 Neste texto mostraremos como configurar o Perl para instalar os módulos do cpan localmente via local::lib em uma máquina na qual não possuimos permissões administrativas. Em seguida abordaremos também a instalação do Catalyst, bem como alguns tópicos opcionais.
+
+=cut
 
 =head1 CPAN COM LOCAL::LIB
 
@@ -147,6 +137,8 @@ Agora sim. Vamos dar uma conferida onde foi parar o módulo YAML recém instalad
 
 Ele foi instalado dentro de uma árvore de diretórios criada no home do usuário corrente, conforme planejávamos e tudo isso sem pedir a senha de root uma única vez.
 
+=cut
+
 =head1 MINICPAN (OPCIONAL)
 
 Já vimos como instalar módulos do cpan localmente sem necessitar de privilégios administrativos. Entretanto, a dependência de uma conexão à internet para a instalação de novos módulos, é por vezes um empecilho para a utilização desta poderosa ferramenta. Como em Perl sempre há mais de uma forma de se fazer, neste texto também mostraremos como criar um mini-mirror do cpan para ser utilizado em ambientes onde uma conexão com a internet nem sempre é possível.
@@ -166,7 +158,7 @@ Feito isso, podemos instalar o módulo CPAN::Mini com o comando:
 
 Depois de instalar o módulo, executamos o comando minicpan que vai sincronizar o repositório indicado no ‘remote’ do .minicpanrc com o repositório na internet. Esta parte pode demorar entre alguns minutos e várias horas, dependendo da velocidade do seu link, pois ele vai baixar cerca de 1.2 GB de arquivos.
 
-    user@host-perl:~$ minicpan
+    user@host:~$ minicpan
     authors/01mailrc.txt.gz ... updated
     modules/02packages.details.txt.gz ... updated
     modules/03modlist.data.gz ... updated
@@ -182,11 +174,105 @@ Onde /home/blabos é o diretório home do usuário, no meu caso, blabos; e minic
 
 Com esses passo simples, conseguimos construir um mini-mirror do cpan para ser utilizado em ambientes com pouco ou nenhum acesso à internet. Adicionalmente, para replicar o mirror em outras máquinas, basta copiar o diretório minicpan e adicioná-lo como opção de download para o comando cpan (última etapa descrita anteriormente).
 
+=cut
+
 =head1 INSTALANDO O CATALYST
+
+Antes de instalar o Catalyst no entanto, certifique-se que você possui pelo menos a versão 5.8.1 do Perl instalada:
+
+    user@host:$ perl --version
+
+    This is perl, v5.10.0 built for i486-linux-gnu-thread-multi
+
+    Copyright 1987-2007, Larry Wall
+
+    Perl may be copied only under the terms of either the Artistic License or the
+    GNU General Public License, which may be found in the Perl 5 source kit.
+
+    Complete documentation for Perl, including FAQ lists, should be found on
+    this system using "man perl" or "perldoc perl".  If you have access to the
+    Internet, point your browser at http://www.perl.org/, the Perl Home Page.
+
+    user@host:$
+
+O Catalyst é um framework MVC bastante sofisticado e usa o que há de mais moderno em Perl. Ele depende de vários outros componentes que fazem dele uma das mais completas ferramentas de desenvolvimento de aplicações. Portanto não se assute com a quantidade de módulos que será instalada junto com ele.
+
+A instalação do Catalyst é bastante flexível e customizável, você instala o Runtime que é a plataforma base e a combina com vários outros módulos da forma que fizer mais sentido para a sua aplicação.
+
+Dentre as várias opções possíveis, podemos destacar dois sabores mais comuns a 'Devel' e a 'Deploy'. A diferença básica entre as duas é que na instalação 'Devel' são instaladas algumas ferramentas de desenvolvimento enquanto na 'Deploy' não.
+
+Primeiramente mostraremos como realizar uma instalação 'Devel' e depois falaremos sober a instalação 'Deploy'.
+
+=head2 Instalação 'Devel'
+
+A instalação 'Devel' é a mais simples de todas e é feita com o comando:
+
+    user@host:$~ cpan Catalyst::Devel
+    ...
+    Writing /home/blabos/perl5/lib/perl5/i486-linux-gnu-thread-multi/auto/Catalyst/Devel/.packlist
+    Appending installation info to /home/blabos/perl5/lib/perl5/i486-linux-gnu-thread-multi/perllocal.pod
+     FLORA/Catalyst-Devel-1.26.tar.gz
+     /usr/bin/make install  -- OK
+    user@host:~$
+
+Atente para os caracteres maiúsculos e minúsculos. Feito isso, vá tomar um café, porque dependendo da sua conexão, a instalação vai demorar alguns minutos; normalmente vários, nos quais serão instalados quase 20 MB de módulos (18.9 para ser mas preciso).
+
+A partir desse ponto é possível criar uma aplicação Catalyst mínima com o comando:
+
+    user@host:~$ catalyst.pl MyApp
+
+E executá-la com os comandos:
+
+    user@host:~$ cd MyApp
+    user@host:~/MyApp$ ./script/myapp_server.pl
+
+Com isso temos instalado o ambiente de desenvolvimento mínimo, ou seja, Runtime e algumas ferramentas de desenvolvimento. Como o Catalyst não faz muitas suposições sobre que tipo de aplicação você irá fazer, módulos de acesso a banco de dados ou templates não são automaticamente instalados. A instalação desses módulos será abordada nas próximas seções.
+
+=cut
+
+=head2 Instalação 'Deploy'
+
+A instalação 'Deploy' é utilizada quando queremos implantar uma aplicação pronta numa determinada máquina, mas não queremos instalar todos os pacotes de desenvolvimento. Ela é um pouco mais sensível que a 'Devel', pois depende da sua aplicação.
+
+Podemos dividi-la em duas etapas: instalação do Runtime e instalação da aplicação.
+
+Para instalar o Runtime do catalyst, basta executar o comando:
+
+    user@host:$~ cpan Catalyst::Runtime
+    ...
+    Writing /home/blabos/perl5/lib/perl5/i486-linux-gnu-thread-multi/auto/Catalyst/Runtime/.packlist
+    Appending installation info to /home/blabos/perl5/lib/perl5/i486-linux-gnu-thread-multi/perllocal.pod
+     FLORA/Catalyst-Runtime-5.80020.tar.gz
+     /usr/bin/make install  -- OK
+    user@host:~$
+
+Isso instala o Runtime do Catalyst, mas não as dependências da sua aplicação. Para finalizar você vai querer instalar a sua aplicação e dependências, que você acrescentou no arquivo Makefile.PL durante o desenvolvimento. Esta etapa da instalação é feita com os comandos:
+
+    user@host:$~ perl Makefile.PL && make test && make install
+
+A aplicação e suas dependências serão instaladas junto com os outros módulos no mesmo diretório que foi configurado com local::lib, /home/blabos/perl5 no meu caso.
+
+=cut
+
+=cut
 
 =head1 ARMADILHAS COMUNS
 
+=cut
+
 =head1 MÓDULOS ADICIONAIS (OPCIONAL)
+
+=cut
+
+=head1 REFERÊNCIAS
+
+=head2 Wiki do Catalyst
+
+http://wiki.catalystframework.org/wiki/installingcatalyst
+
+=cut
+
+=cut
 
 =head1 AUTOR
 
