@@ -4,6 +4,15 @@ use warnings;
 use strict;
 
 
+=head1 VERSÃO
+
+Versão 0.01
+
+=cut
+
+our $VERSION = '0.01';
+
+
 =head1 INTRODUÇÃO
 
 Uma das grandes forças do Perl é o incrível repositório CPAN. Nele encontramos uma grande quantidade de componentes para resolver os mais cabulosos problemas. Bastam alguns comandos simples para que os mais produtivos e eficazes frameworks estejam disponíveis.
@@ -38,6 +47,8 @@ Na sequência vem a pergunta sobre a instalação de dependências de build dos 
     <build_requires_install_policy>
     Policy on installing 'build_requires' modules (yes, no, ask/yes,
     ask/no)? [ask/yes] yes
+
+Entretanto, um bug conhecido de alguns sistemas instaladores mais antigos faz com que estas escolhas nem sempre sejam obedecidas. Mais à frente quando falarmos da configuração de variáveis de ambiente para uso do módulo local::lib, vamos mostrar como suprimir este erro.
 
 A seguir vem uma sequência de perguntas sobre ferramentas que o cpan normalmente usa. Note que o cpan automaticamente descobre o PATH das ferramentas instaladas mas permite que esse PATH seja alterado. Com isso, caso alguma das ferramentas não esteja disponível, é possível instalá-las em um diretório qualquer e apontar para elas.
 
@@ -82,7 +93,11 @@ Neste shell, faça o bootstrap com os seguintes comandos:
 
 Por último mas não menos importante é preciso exportar algumas variáveis de ambiente. Para isso saia do shell atual (Ctrl+D), saia do shell do cpan (bye ou quit) e execute no bash o seguinte comando:
 
-    echo 'eval $(perl -I$HOME/perl5/lib/perl5 -Mlocal::lib)' >>~/.bashrc
+    echo 'eval $(perl -I$HOME/perl5/lib/perl5 -Mlocal::lib)' >> ~/.bashrc
+
+Lembra do bug que falamos anteriormente sobre perguntas durante a instalação? Ele pode ser contornado configurando-se a variável de ambiente PERL_MM_USE_DEFAULT. Isso pode ser facilmente resolvido com o comando abaixo:
+
+    echo 'PERL_MM_USE_DEFAULT=1' >> ~/.bashrc
 
 Isso vai adicionar os comandos que exportam as variáveis de ambiente ao final do seu arquivo .bashrc, e então a cada login elas serão automaticamente exportadas.
 
@@ -256,11 +271,91 @@ A aplicação e suas dependências serão instaladas junto com os outros módulo
 
 =cut
 
-=head1 ARMADILHAS COMUNS
+=head1 MÓDULOS ADICIONAIS (OPCIONAL)
+
+Uma das grandes vantagens do Catalyst é ser um framework bastante customizável, bastando juntar o conjunto certo do módulos para que ele torne simples o desenvolvimento de vários tipos de aplicações diferentes.
+
+Abaixo segue uma lista do módulos mais comuns que podem ou não ser interessantes para o seu caso. Não vamos abordar em detalhes nenhum deles porque isso foge ao escopo deste texto.
+
+=head2 Acesso a Banco de Dados
+
+O Perl possui algumas das ferramentas mais completas flexíveis quando se trata de acesso a banco de dados e o Catalyst aproveita todas elas. Dentre as várias existentes, podemos citar:
+
+=head3 KiokuDB
+
+O KiokuDB é um frontend para persistência de dados baseado no Moose. Maiores detalhes podem ser encontrados no site do projeto em L<http://www.iinteractive.com/kiokudb>. Ele pode ser instalado diretamente via cpan com o comando:
+
+    user@host:$~ cpan KiokuDB
+
+Já a integração com o Catalyst é feita através da instalação do módulo Catalyst::Model::KiokuDB:
+
+    user@host:$~ cpan Catalyst::Model::KiokuDB
 
 =cut
 
-=head1 MÓDULOS ADICIONAIS (OPCIONAL)
+=head3 DBIx::Class
+
+O DBIx::Class, também conhecido como DBIC, é de longe o ORM mais utilizado no mundo Perl, tanto por aplicações Catalyst quanto aplicações de propósito geral. Provavelmente você não vai querer viver sem ele. Maiores detalhes e documentação podem ser encontradas no cpan L<http://search.cpan.org/search?q=dbix::class>. A instalação pode ser feita através do comando:
+
+    user@host:$~ cpan DBIx::Class
+
+=cut
+
+=head3 Notas sobre DBD::pg, DBD::mysql e outros
+
+Os módulos DBD::pg e DBD::mysql são os drivers de acesso ao Postgres e ao MySQL, respectivamente. A instalação de ambos requer componentes de desenvovimento específicos de cada SGBD.
+
+O DBD::pg requer precisa do aplicativo B<pg_config> instalado. Ele normalmente é distribuído junto com os arquivos de desenvolvimento da libpq (no ubuntu, está no pacote libpq-dev).
+
+Analogamente, o DBD::mysql requer o aplicativo B<mysql_config> que normalmente é distribuído junto com os arquivos de desenvolvimento da libmysqlclient (no ubuntu, está no pacote libmysqlclient-dev).
+
+Atente para esses detalhes quando for utilizar outros bancos de dados. Muito provavelmente será necessário ter instalado um compilador e bibliotecas de desenvolvimento, conforme foi citado no início deste texto.
+
+=cut
+
+=cut
+
+=head2 Gerenciamento de Sessões
+
+Nada de ficar queimando cookies! O Catalyst cuida do gerenciamento de sessões pra você.
+
+B<Catalyst::Plugin::Session>
+
+B<Catalyst::Plugin::Session::Store::FastMmap> - Armazena dados de sessão usando FastMmap.
+
+B<Catalyst::Plugin::Session::Store::File> - Armazena dados de sessão usando arquivos.
+
+B<Catalyst::Plugin::Session::Store::DBIC> - Armazena dados de sessão usando banco de dados.
+
+B<Catalyst::Plugin::Session::State::Cookie> - Usa cookies para manter o estado da sessão.
+
+=cut
+
+=head2 Autenticação e autorização
+
+Precisando autenticar usuários? Não tema. Com o Catalyst e seus plugins não há problema!
+
+B<Catalyst::Plugin::Authentication> - Autenticação.
+
+B<Catalyst::Plugin::Authorization::Roles> - Autorização baseada em regras (ou grupos).
+
+B<Catalyst::Plugin::Authorization::ACL> - Autorização baseada em ACLs.
+
+=cut
+
+=head2 Diversos
+
+B<Catalyst::Plugin::StackTrace> - Mostra a stack trace em uma tela de debug. Muito útil para depuração.
+
+B<Catalyst::Plugin::ConfigLoader> - Suporte a vários formatos de arquivo de configuração.
+
+B<Catalyst::Plugin::Unicode> - Suporte transparente a Unicode (UTF8).
+
+B<Catalyst::Plugin::Static::Simple> - Para servir páginas estáticas de forma simples.
+
+B<Catalyst::Helper::Model::Email> ou B<Catalyst::View::Email::Template> para envio de email.
+
+=cut
 
 =cut
 
