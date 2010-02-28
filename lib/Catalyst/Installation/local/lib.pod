@@ -1,17 +1,8 @@
-package Catalyst::Installation::local::lib;
+=pod
 
-use warnings;
-use strict;
+=encoding utf8
 
-
-=head1 VERSÃO
-
-Versão 1.00
-
-=cut
-
-our $VERSION = '1.00';
-
+=head1 Catalyst com local::lib
 
 =head1 INTRODUÇÃO
 
