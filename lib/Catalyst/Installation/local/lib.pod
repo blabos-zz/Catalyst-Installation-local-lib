@@ -60,10 +60,10 @@ fará mais essas besteiras, vamos modificar a opção de auto_commit para 'yes'.
     to a config variable are always automatically committed to disk.
 
      <auto_commit>
-    Always commit changes to config variables to disk? [no]
+    Always commit changes to config variables to disk? [no] yes
 
 A segunda é a que define a política de pré-requisitos. Ela define o que o cpan
-deve fazer ao se deparar com um módulo que possui um dependência. O default é
+deve fazer ao se deparar com um módulo que possui uma dependência. O default é
 ‘ask’ (perguntar). Vamos modificar para ‘follow’ (seguir). Assim, quando o
 cpan encontrar um módulo que possui alguma dependência, ao invés de me
 perguntar o que fazer , ele vai tentar instalá-la automaticamente. Isso é
