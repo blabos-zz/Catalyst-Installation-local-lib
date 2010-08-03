@@ -685,6 +685,8 @@ Este texto é resultado de pesquisas e principalmente, longas conversas com o
 Eden L<< http://search.cpan.org/~edenc >> ao longo do último ano. Deixo aqui
 meu muito obrigado por sua loooonga paciência.
 
+Agradeço também a todos que ajudaram nas várias correções.
+
 =cut
 
 42; # End of Catalyst::Installation::local::lib
