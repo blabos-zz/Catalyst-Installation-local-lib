@@ -6,11 +6,11 @@ use strict;
 
 =head1 VERSÃO
 
-Versão 1.00
+Versão 1.01
 
 =cut
 
-our $VERSION = '1.00';
+our $VERSION = '1.01';
 
 
 =head1 INTRODUÇÃO
@@ -20,7 +20,7 @@ uma grande quantidade de componentes para resolver os mais cabulosos
 problemas. Bastam alguns comandos simples para que os mais produtivos e
 eficazes frameworks estejam disponíveis.
 
-Infelizmente, em ambientes onde não posuimos permissões de administrador,
+Infelizmente, em ambientes onde não possuímos permissões de administrador,
 instalar um componente externo no sistema pode ser na melhor das hipóteses uma
 grande dor de cabeça.
 
@@ -33,7 +33,7 @@ desenvolvimento da libc (quando aplicável), pois alguns módulos preciam
 compilar código escrito em C.
 
 Neste texto mostraremos como configurar o Perl para instalar os módulos do
-cpan localmente via local::lib em uma máquina na qual não possuimos permissões
+cpan localmente via local::lib em uma máquina na qual não possuímos permissões
 administrativas. Em seguida abordaremos também a instalação do Catalyst, bem
 como alguns tópicos opcionais.
 
@@ -44,14 +44,14 @@ como alguns tópicos opcionais.
 A configuração do módulo local::lib é extremamente simples e rápida. Vamos
 tomar como exemplo uma instalação "virgem" do Perl em uma máquina com Ubuntu.
 
-O primeiro passo é configurar o aplicativo cpan, que já vem com a a instalação
-padrão do Perl, e o qual será usado para instalar todos os módulos a seguir.
+O primeiro passo é configurar o aplicativo cpan, que já vem com a instalação
+padrão do Perl e será usado para instalar todos os módulos a seguir.
 
 Para isso, basta chamar um terminal e digitar o comando cpan. Ele vai mostrar
 uma pequena mensagem de apresentação e perguntar se você gostaria de deixá-lo
 configurar tudo automaticamente. Para a maioria dos casos a configuração
 automática é suficiente, no entanto vamos configurar algumas opções um pouco
-diferentes do default, então respondemos ‘no’.
+diferentes do default, então responderemos ‘no’.
 
     Would you like me to configure as much as possible automatically? [yes] no
 
@@ -107,7 +107,7 @@ diretório qualquer e apontar para elas.
 
     <bzip2>
     Where is your bzip2 program? [/bin/bzip2]
- 
+    
     <gzip>
     Where is your gzip program? [/bin/gzip]
     ...
@@ -211,7 +211,7 @@ o admistrador ou com o monge mais próximo!
 
 Agora, antes de começar a instalar módulos, é uma boa atualizar o próprio
 módulo CPAN.pm. Atente para as maiúsculas e minúsculas.
-    
+
     user@host:~$ cpan CPAN
     ...
     Installing /home/catalyst/perl5/bin/cpan
@@ -223,7 +223,7 @@ módulo CPAN.pm. Atente para as maiúsculas e minúsculas.
     user@host:~$
 
 Depois da instalação da nova versão do CPAN.pm, note que ele está avisando que
-o módulo YAML não está instalado. Para deixar tudo redondinho vamos intalá-lo
+o módulo YAML não está instalado. Para deixar tudo redondinho vamos instalá-lo
 também.
 
     user@host:~$ cpan YAML
@@ -305,7 +305,7 @@ Onde /home/blabos é o diretório home do usuário, no meu caso, blabos; e
 minicpan é o diretório que configuramos na opção ‘local’ do .minicpanrc.
 
 Lembra-se da primeira opção configurada no cpan? Ela serve exatamente para que
-a configuração feita acima seja automaticamente persistida nos arquivo de
+a configuração feita acima seja automaticamente persistida nos arquivos de
 configuração do cpan.
 
 Com esses passos simples, conseguimos construir um mini-mirror do cpan para
@@ -385,7 +385,7 @@ E executá-la com os comandos:
 
 Com isso temos instalado o ambiente de desenvolvimento mínimo, ou seja,
 Runtime e algumas ferramentas de desenvolvimento. Como o Catalyst não faz
-muitas suposições sobre que tipo de aplicação você irá fazer, módulos de
+muitas suposições sobre que tipo de aplicação você irá criar, os módulos de
 acesso a banco de dados ou templates não são automaticamente instalados. A
 instalação desses módulos será abordada nas próximas seções.
 
@@ -427,8 +427,6 @@ meu caso.
 Desta forma, para replicar a instalação da aplicação em máquinas que
 compartilhem a mesma arquitetura, basta copiar o diretório perl5, criado pelo
 local:lib e configurar as variáveis de ambiente adequadamente.
-
-=cut
 
 =cut
 
@@ -502,8 +500,6 @@ desenvolvimento, conforme foi citado no início deste texto.
 
 =cut
 
-=cut
-
 =head2 Criação de Templates
 
 Um dos mais legais sistemas de templates que podem ser usados juntamente com o
@@ -569,8 +565,6 @@ envio de email.
 
 =cut
 
-=cut
-
 =head1 ARMADILHAS COMUNS
 
 =head2 Fiz tudo certo mas "dá" permissão negada ao tentar instalar um módulo
@@ -629,7 +623,7 @@ Atente para o detalhe:
     user@host:~$
 
 Esse erro normalmente ocorre quando as variáveis de ambiente *NÃO* estão
-corretamente configradas. Revise a parte de variáveis de ambiente, dê uma
+corretamente configuradas. Revise a parte de variáveis de ambiente, dê uma
 conferida o arquiv ~/.bashrc e lembre-se sempre de fazer logoff do terminal
 corrente e abrir um novo terminal quando configurar as variáveis de ambiente.
 
@@ -659,9 +653,7 @@ e comentar as duas últimas linhas que foram adicionadas durante o tutorial:
     # PERL_MM_USE_DEFAULT=1
 
 Agora prossiga com a configuração e lembre-se de descomentar essas linhas
-quando terminar, ou você vai acaber caindo na armadilha anterior.
-
-=cut
+quando terminar, ou você vai acabar caindo na armadilha anterior.
 
 =cut
 
@@ -675,8 +667,6 @@ B<Livro de Catalyst>: L<http://apress.com/book/view/1430223650>
 
 B<Módulos recomendados para diversas finalidades>:
 L<http://www.perlfoundation.org/perl5/index.cgi?recommended_cpan_modules>
-
-=cut
 
 =cut
 
@@ -698,4 +688,3 @@ meu muito obrigado por sua loooonga paciência.
 =cut
 
 42; # End of Catalyst::Installation::local::lib
-
